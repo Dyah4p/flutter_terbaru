@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'daftar_teman.dart';
+import 'login_screen2.dart';
 import 'halaman_profil.dart';
 
 class HalamanLogin extends StatefulWidget {
@@ -12,6 +12,8 @@ class HalamanLogin extends StatefulWidget {
 class _HalamanLoginState extends State<HalamanLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
 
   void handleLogin() {
     String email = emailController.text.trim();
@@ -35,7 +37,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-
             CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage('images/login.jpg'),
@@ -43,7 +44,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                 debugPrint("images/login.jpg");
               },
             ),
-
             SizedBox(height: 20),
             TextField(
               controller: emailController,
@@ -56,30 +56,35 @@ class _HalamanLoginState extends State<HalamanLogin> {
             SizedBox(height: 10),
             TextField(
               controller: passwordController,
-              obscureText: true,
+              obscureText: _obscurePassword,
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
+                hintText: "Enter Your Password",
                 prefixIcon: Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                ),
               ),
             ),
-
             SizedBox(height: 20),
-
-            // Tombol Login 1
             ElevatedButton(onPressed: handleLogin, child: Text('Login')),
-
-            // Tombol Login 2 ke daftar teman
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DaftarTeman()),
+                  MaterialPageRoute(builder: (context) => Login2Screen()),
                 );
               },
-              child: Text('Daftar Teman'),
+              child: Text('Login 2'),
             ),
-
             SizedBox(height: 10),
             TextButton(onPressed: () {}, child: Text('Lupa Password?')),
           ],
