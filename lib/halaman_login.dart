@@ -1,100 +1,88 @@
 import 'package:flutter/material.dart';
+import 'daftar_teman.dart';
+import 'halaman_profil.dart';
 
 class HalamanLogin extends StatefulWidget {
   const HalamanLogin({super.key});
+
   @override
-  HalamanLoginState createState() => HalamanLoginState();
+  State<HalamanLogin> createState() => _HalamanLoginState();
 }
 
-class HalamanLoginState extends State<HalamanLogin> {
+class _HalamanLoginState extends State<HalamanLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   void handleLogin() {
-    Navigator.pushNamed(context, '/teman');
+    String email = emailController.text.trim();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HalamanProfil(email: email)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.blueAccent,
-                ),
-              ),
-              SizedBox(height: 30),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Login',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
 
-              CircleAvatar(
-                radius: 45,
-                backgroundImage: AssetImage('assets/logo.jpg'),
-                onBackgroundImageError: (_, __) {
-                  debugPrint("Gambar tidak ditemukan di assets/login.jpg");
-                },
-              ),
-              SizedBox(height: 30),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('images/login.jpg'),
+              onBackgroundImageError: (_, __) {
+                debugPrint("images/login.jpg");
+              },
+            ),
 
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+            SizedBox(height: 20),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.email),
               ),
-              SizedBox(height: 15),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.lock),
+              ),
+            ),
 
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              SizedBox(height: 25),
+            SizedBox(height: 20),
 
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: handleLogin,
-                  icon: Icon(Icons.login),
-                  label: Text('Masuk'),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Lupa Password?',
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-              ),
-            ],
-          ),
+            // Tombol Login 1
+            ElevatedButton(onPressed: handleLogin, child: Text('Login')),
+
+            // Tombol Login 2 ke daftar teman
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DaftarTeman()),
+                );
+              },
+              child: Text('Daftar Teman'),
+            ),
+
+            SizedBox(height: 10),
+            TextButton(onPressed: () {}, child: Text('Lupa Password?')),
+          ],
         ),
       ),
     );
